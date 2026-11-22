@@ -1,5 +1,7 @@
 # aerial-pen
 
+基于aerial-tv开发
+
 给低分辨率安卓点读笔（测试机：A20Pro，Android 6.0 / API 23，258×960，density 160）做的第三方桌面。仿 tvOS 风格，纯 Android Framework 自绘，无第三方 UI 库。
 
 ![Aerial 横屏](docs/screenshots/aerial-landscape.png)
