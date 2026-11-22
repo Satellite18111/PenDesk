@@ -89,4 +89,6 @@ Aerial TV 面向 Android TV 大屏，提供了「时钟栏 + 横向卡片」的�
 
 ## 许可证
 
-MIT License，见 [LICENSE](LICENSE)。第三方组件与灵感来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。仓库内**不包含任何 GPL/LGPL/AGPL 代码或库**。
+MIT License，见 [LICENSE](LICENSE)。第三方组件与灵感来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+##作者声明
+本项目及声明由豆包老师开发，作者仅提供灵感。
