@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.ComponentName
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -12,6 +13,7 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.provider.Settings
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -68,6 +70,7 @@ class SettingsActivity : Activity() {
     private lateinit var prefs: SharedPreferences
     private lateinit var currentLabel: TextView
     private lateinit var currentPackage: TextView
+    private lateinit var currentHome: TextView
     private val rows = ArrayList<Pair<Choice, RowView>>()
 
     private data class RowView(
@@ -94,7 +97,39 @@ class SettingsActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        syncHomeAlias()
         refreshCurrent()
+    }
+
+    private fun homeAlias(): ComponentName =
+        ComponentName(packageName, packageName + ".HomeAlias")
+
+    private fun isHomeAliasEnabled(): Boolean = try {
+        packageManager.getComponentEnabledSetting(homeAlias()) ==
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+    } catch (t: Throwable) {
+        false
+    }
+
+    private fun syncHomeAlias() {
+        val homeIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+        val resolvedPkg = try {
+            packageManager.resolveActivity(homeIntent, PackageManager.MATCH_DEFAULT_ONLY)
+                ?.activityInfo?.packageName
+        } catch (t: Throwable) {
+            null
+        }
+        // 只有在 Aerial 已是默认桌面时才保留 HOME 候选，避免无端抢占系统主屏幕。
+        if (resolvedPkg != packageName && isHomeAliasEnabled()) {
+            try {
+                packageManager.setComponentEnabledSetting(
+                    homeAlias(),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP,
+                )
+            } catch (t: Throwable) {
+            }
+        }
     }
 
     private fun applyFullscreen() {
@@ -134,7 +169,7 @@ class SettingsActivity : Activity() {
 
         column.addView(text("Aerial 桌面 · 快捷跳转与入口", 14f, 0xFF93A6B8.toInt(), false))
 
-        column.addView(section("当前「学习桌面」按钮跳转"))
+        column.addView(section("当前胶囊按钮跳转目标"))
         val card = LinearLayout(this)
         card.orientation = LinearLayout.VERTICAL
         card.setPadding(dp(14), dp(12), dp(14), dp(12))
@@ -158,6 +193,26 @@ class SettingsActivity : Activity() {
         }
         card.addView(reset, LinearLayout.LayoutParams(-1, dp(48)))
         column.addView(card, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
+
+        column.addView(section("默认桌面（系统主屏幕）"))
+        val homeCard = LinearLayout(this)
+        homeCard.orientation = LinearLayout.VERTICAL
+        homeCard.setPadding(dp(14), dp(12), dp(14), dp(12))
+        homeCard.background = GradientDrawable().apply {
+            cornerRadius = dp(14).toFloat()
+            setColor(0xFF16212C.toInt())
+            setStroke(dp(1), 0x33FFFFFF)
+        }
+        currentHome = text("", 18f, 0xFFFFFFFF.toInt(), true)
+        homeCard.addView(currentHome)
+        homeCard.addView(
+            text("点下面按钮进入系统「主屏幕」选择页，选中要用的桌面即可。", 13f, 0xFF93A6B8.toInt(), false)
+                .apply { setPadding(0, dp(4), 0, dp(8)) },
+        )
+        val chooseHome = pill("选择默认桌面", 0xFF2F6FE0.toInt(), dp(48), 16f)
+        chooseHome.setOnClickListener { openHomeSettings() }
+        homeCard.addView(chooseHome, LinearLayout.LayoutParams(-1, dp(48)))
+        column.addView(homeCard, LinearLayout.LayoutParams(-1, -2).apply { topMargin = dp(4) })
 
         column.addView(section("选择要跳转的应用"))
         column.addView(
@@ -253,6 +308,36 @@ class SettingsActivity : Activity() {
         val target = DesktopSettings.load(this)
         currentLabel.text = target.label
         currentPackage.text = target.pkg + "/" + target.activity
+
+        val homeIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+        val resolved = packageManager.resolveActivity(homeIntent, PackageManager.MATCH_DEFAULT_ONLY)
+        currentHome.text = try {
+            resolved?.loadLabel(packageManager)?.toString() ?: "未设置"
+        } catch (t: Throwable) {
+            "未设置"
+        }
+    }
+
+    private fun openHomeSettings() {
+        try {
+            packageManager.setComponentEnabledSetting(
+                homeAlias(),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP,
+            )
+        } catch (t: Throwable) {
+        }
+        try {
+            startActivity(Intent(Settings.ACTION_HOME_SETTINGS))
+            return
+        } catch (t: Throwable) {
+        }
+        try {
+            val homeIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+            startActivity(Intent.createChooser(homeIntent, "选择默认桌面"))
+        } catch (t: Throwable) {
+            Toast.makeText(this, "系统没有提供默认桌面设置页", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadChoices(): List<Choice> {

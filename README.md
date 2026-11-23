@@ -23,8 +23,9 @@ git clone https://github.com/Satellite18111/aerial-pen.git
   - 竖屏：顶部时钟 + 双列卡片。
 - 长按应用弹出菜单：应用信息 / 从桌面隐藏 / 恢复隐藏应用 / 刷新列表。
 - 桌面内置「桌面设置」入口（应用网格第一格，长按左侧时钟也可进入），可把左下胶囊按钮改成跳转任意已安装应用；默认为原厂学王桌面，支持一键恢复默认。
+- 设置里可直接进入系统「主屏幕」选择页，把 Aerial 或学王扫学设为系统默认桌面。
 - 左下胶囊按钮文字会跟随所选应用名，宽度自动伸缩，过长自动省略。
-- 不占用 `CATEGORY_HOME`，不抢系统默认桌面；按 Home 仍进学王。
+- 默认不抢占系统桌面：Aerial 的 HOME 入口默认关闭，只有点「选择默认桌面」时才临时启用；切回学王后再次进入 Aerial 设置会自动关闭该入口。
 - `onResume` 自动刷新应用列表，新装应用无需重启桌面。
 
 | 横屏 | 竖屏 |
@@ -40,6 +41,16 @@ git clone https://github.com/Satellite18111/aerial-pen.git
 - 下方列出设备上所有桌面类（`CATEGORY_HOME`）与可启动应用（`CATEGORY_LAUNCHER`），按中文名称排序；点一下即保存并设为跳转目标。
 - 设置保存在 `aerial_pen` SharedPreferences 的 `jump_pkg` / `jump_activity` / `jump_label`，升级安装不会丢。
 - 学王桌面即使不在可查询列表中也会被强制补入，保证随时能回默认。
+
+### 默认桌面
+
+![默认桌面](docs/screenshots/aerial-default-home.png)
+
+- 设置页显示当前系统默认桌面（通过 `CATEGORY_HOME` 解析）。
+- 点「选择默认桌面」进入系统自带的「主屏幕」选择页，列表里会同时出现「学王扫学」和「Aerial 桌面」。
+- 选中 Aerial 桌面后按 Home 即进入 Aerial；选回学王扫学即恢复原厂桌面。
+- Aerial 的 HOME 候选使用 `activity-alias`（`.HomeAlias`），Manifest 里默认 `enabled=false`，不会在安装后自动抢默认桌面。只有点「选择默认桌面」时才启用；如果随后选的不是 Aerial，再进入 Aerial 设置时会自动关闭该候选。
+- Android 6 没有 root/device owner 时无法用代码静默改默认桌面，因此必须经过系统「主屏幕」页确认，这是系统限制。
 
 ## 构建
 
