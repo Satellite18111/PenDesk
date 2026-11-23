@@ -273,7 +273,7 @@ class MainActivity : Activity() {
 
     private fun showLauncherMenu() {
         showSheet(
-            "Aerial 桌面",
+            "PenDesk",
             listOf(
                 "桌面设置" to { openSettings() },
                 "显示已隐藏的应用" to { showHiddenApps() },

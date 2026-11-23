@@ -167,7 +167,7 @@ class SettingsActivity : Activity() {
         top.addView(back, LinearLayout.LayoutParams(dp(76), dp(44)))
         column.addView(top)
 
-        column.addView(text("Aerial 桌面 · 快捷跳转与入口", 14f, 0xFF93A6B8.toInt(), false))
+        column.addView(text("PenDesk · 快捷跳转与入口", 14f, 0xFF93A6B8.toInt(), false))
 
         column.addView(section("当前胶囊按钮跳转目标"))
         val card = LinearLayout(this)

@@ -1,10 +1,12 @@
-# aerial-pen
+# PenDesk
+
+> 应用显示名为 **PenDesk**；仓库名 `aerial-pen` 与包名 `aerial.pen` 为历史标识，继续保留以兼容旧版本升级和已有链接。
 
 受 **Aerial TV** 启发，独立实现。仅参考其视觉语言与交互思路，未拷贝上游源码。
 
 给低分辨率安卓点读笔（测试机：A20Pro，Android 6.0 / API 23，258×960，density 160）做的第三方桌面。仿 tvOS 风格，纯 Android Framework 自绘，无第三方 UI 库。
 
-![Aerial 横屏](docs/screenshots/aerial-landscape.png)
+![PenDesk 横屏](docs/screenshots/aerial-landscape.png)
 
 ## 下载
 
@@ -24,9 +26,9 @@ git clone https://github.com/Satellite18111/aerial-pen.git
   - 竖屏：顶部时钟 + 双列卡片。
 - 长按应用弹出菜单：应用信息 / 从桌面隐藏 / 恢复隐藏应用 / 刷新列表。
 - 桌面内置「桌面设置」入口（应用网格第一格，长按左侧时钟也可进入），可把左下胶囊按钮改成跳转任意已安装应用；默认为原厂学王桌面，支持一键恢复默认。
-- 设置里可直接进入系统「主屏幕」选择页，把 Aerial 或学王扫学设为系统默认桌面。
+- 设置里可直接进入系统「主屏幕」选择页，把 PenDesk 或学王扫学设为系统默认桌面。
 - 左下胶囊按钮文字会跟随所选应用名，宽度自动伸缩，过长自动省略。
-- 默认不抢占系统桌面：Aerial 的 HOME 入口默认关闭，只有点「选择默认桌面」时才临时启用；切回学王后再次进入 Aerial 设置会自动关闭该入口。
+- 默认不抢占系统桌面：PenDesk 的 HOME 入口默认关闭，只有点「选择默认桌面」时才临时启用；切回学王后再次进入 PenDesk 设置会自动关闭该入口。
 - `onResume` 自动刷新应用列表，新装应用无需重启桌面。
 
 | 横屏 | 竖屏 |
@@ -48,9 +50,9 @@ git clone https://github.com/Satellite18111/aerial-pen.git
 ![默认桌面](docs/screenshots/aerial-default-home.png)
 
 - 设置页显示当前系统默认桌面（通过 `CATEGORY_HOME` 解析）。
-- 点「选择默认桌面」进入系统自带的「主屏幕」选择页，列表里会同时出现「学王扫学」和「Aerial 桌面」。
-- 选中 Aerial 桌面后按 Home 即进入 Aerial；选回学王扫学即恢复原厂桌面。
-- Aerial 的 HOME 候选使用 `activity-alias`（`.HomeAlias`），Manifest 里默认 `enabled=false`，不会在安装后自动抢默认桌面。只有点「选择默认桌面」时才启用；如果随后选的不是 Aerial，再进入 Aerial 设置时会自动关闭该候选。
+- 点「选择默认桌面」进入系统自带的「主屏幕」选择页，列表里会同时出现「学王扫学」和「PenDesk」。
+- 选中 PenDesk 后按 Home 即进入 PenDesk；选回学王扫学即恢复原厂桌面。
+- PenDesk 的 HOME 候选使用 `activity-alias`（`.HomeAlias`），Manifest 里默认 `enabled=false`，不会在安装后自动抢默认桌面。只有点「选择默认桌面」时才启用；如果随后选的不是 PenDesk，再进入 PenDesk 设置时会自动关闭该候选。
 - Android 6 没有 root/device owner 时无法用代码静默改默认桌面，因此必须经过系统「主屏幕」页确认，这是系统限制。
 
 ## 构建
@@ -128,7 +130,7 @@ Aerial TV 是 **彭楚金（pengchujin）** 以 MIT 许可开源的 Android TV �
 - 没有拉取、拷贝或修改 Aerial TV 的源码；
 - 没有打包或复用它的图标、字体、航拍影片、天气数据等上游素材；
 - 本项目代码全部为点读笔重新编写，仅参考「时钟栏 + 横向卡片 + 玻璃底板」的视觉语言与长按菜单等交互思路；
-- 项目名中的 `Aerial` 用于说明灵感来源，本项目与上游作者无隶属或合作关系。
+- 项目名为 **PenDesk**，仓库目录 `aerial-pen` 只是历史标识；Aerial TV 用于说明灵感来源，本项目与上游作者无隶属或合作关系。
 
 如果后续引入任何上游源码或素材，会按上游 MIT 许可保留版权声明并在 `THIRD_PARTY_NOTICES.md` 中列明。
 
