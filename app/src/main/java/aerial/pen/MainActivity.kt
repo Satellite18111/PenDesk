@@ -34,11 +34,12 @@ class MainActivity : Activity() {
     private lateinit var prefs: SharedPreferences
     private lateinit var clock: ClockPanel
     private lateinit var grid: LauncherGrid
+    private lateinit var studyButton: TextView
     private var landscape = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = getSharedPreferences("aerial_pen", MODE_PRIVATE)
+        prefs = getSharedPreferences(DesktopSettings.PREFS, MODE_PRIVATE)
         landscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         applyFullscreen()
         buildUi()
@@ -48,6 +49,7 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
         if (::grid.isInitialized) reload()
+        if (::studyButton.isInitialized) updateStudyButton()
     }
 
     private fun applyFullscreen() {
@@ -126,14 +128,17 @@ class MainActivity : Activity() {
 
         root.addView(content, FrameLayout.LayoutParams(-1, -1))
 
-        val study = TextView(this)
-        study.text = "学习桌面"
-        study.setTextColor(0xFFFFFFFF.toInt())
-        study.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (landscape) 10.5f else 10f)
-        study.gravity = Gravity.CENTER
-        study.isClickable = true
-        study.setShadowLayer(4f, 0f, 1f, 0xCC000000.toInt())
-        study.background = RippleDrawable(
+        studyButton = TextView(this)
+        updateStudyButton()
+        studyButton.setTextColor(0xFFFFFFFF.toInt())
+        studyButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (landscape) 10.5f else 10f)
+        studyButton.gravity = Gravity.CENTER
+        studyButton.isClickable = true
+        studyButton.isSingleLine = true
+        studyButton.ellipsize = android.text.TextUtils.TruncateAt.END
+        studyButton.setPadding(dp(10), 0, dp(10), 0)
+        studyButton.setShadowLayer(4f, 0f, 1f, 0xCC000000.toInt())
+        studyButton.background = RippleDrawable(
             ColorStateList.valueOf(0x40FFFFFF),
             GradientDrawable().apply {
                 cornerRadius = dp(13).toFloat()
@@ -142,7 +147,7 @@ class MainActivity : Activity() {
             },
             null,
         )
-        study.setOnClickListener { openStudyDesktop() }
+        studyButton.setOnClickListener { openStudyDesktop() }
 
         val studyParams = if (landscape) {
             FrameLayout.LayoutParams(dp(104), dp(26)).apply {
@@ -157,26 +162,39 @@ class MainActivity : Activity() {
                 topMargin = dp(11)
             }
         }
-        root.addView(study, studyParams)
+        root.addView(studyButton, studyParams)
         setContentView(root)
+        updateStudyButton()
+    }
+
+    private fun updateStudyButton() {
+        val target = DesktopSettings.load(this)
+        studyButton.text = target.label
+        val lp = studyButton.layoutParams as? FrameLayout.LayoutParams ?: return
+        val base = if (landscape) dp(104) else dp(78)
+        val limit = if (landscape) dp(220) else dp(150)
+        val measured = kotlin.math.ceil(studyButton.paint.measureText(target.label)).toInt() + dp(26)
+        lp.width = kotlin.math.min(limit, kotlin.math.max(base, measured))
+        studyButton.layoutParams = lp
     }
 
     private fun openStudyDesktop() {
+        val target = DesktopSettings.load(this)
         val intent = Intent(Intent.ACTION_MAIN)
-        intent.setClassName(STOCK_PKG, STOCK_HOME_ACTIVITY)
+        intent.setClassName(target.pkg, target.activity)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             startActivity(intent)
         } catch (t: Throwable) {
-            val fallback = packageManager.getLaunchIntentForPackage(STOCK_PKG)
+            val fallback = packageManager.getLaunchIntentForPackage(target.pkg)
             if (fallback == null) {
-                Toast.makeText(this, "没有找到原学习桌面", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "没有找到「${target.label}」", Toast.LENGTH_SHORT).show()
             } else {
                 fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 try {
                     startActivity(fallback)
                 } catch (t2: Throwable) {
-                    Toast.makeText(this, "打不开学习桌面", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "打不开「${target.label}」", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -184,11 +202,26 @@ class MainActivity : Activity() {
 
     private fun reload() {
         val hidden = prefs.getStringSet(KEY_HIDDEN, emptySet()) ?: emptySet()
-        val apps = AppRepository.load(this, hidden)
+        val apps = AppRepository.load(this, hidden).toMutableList()
+        apps.add(
+            0,
+            AppEntry(
+                pkg = packageName,
+                activity = SettingsActivity::class.java.name,
+                label = "桌面设置",
+                icon = packageManager.getApplicationIcon(packageName),
+                system = false,
+            ),
+        )
+        if (::studyButton.isInitialized) updateStudyButton()
         grid.setApps(apps, ::launchApp, ::showAppMenu)
     }
 
     private fun launchApp(entry: AppEntry) {
+        if (entry.pkg == packageName && entry.activity == SettingsActivity::class.java.name) {
+            openSettings()
+            return
+        }
         val intent = Intent(Intent.ACTION_MAIN)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
         intent.setClassName(entry.pkg, entry.activity)
@@ -200,7 +233,18 @@ class MainActivity : Activity() {
         }
     }
 
+    private fun openSettings() {
+        startActivity(
+            Intent(this, SettingsActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+        )
+    }
+
     private fun showAppMenu(entry: AppEntry) {
+        if (entry.pkg == packageName) {
+            openSettings()
+            return
+        }
         showSheet(
             entry.label,
             listOf(
@@ -231,6 +275,7 @@ class MainActivity : Activity() {
         showSheet(
             "Aerial 桌面",
             listOf(
+                "桌面设置" to { openSettings() },
                 "显示已隐藏的应用" to { showHiddenApps() },
                 "刷新应用列表" to {
                     reload()
@@ -384,7 +429,5 @@ class MainActivity : Activity() {
 
     companion object {
         private const val KEY_HIDDEN = "hidden_packages"
-        private const val STOCK_PKG = "com.jxw.launcher"
-        private const val STOCK_HOME_ACTIVITY = "com.jxw.scanpen.a19.ui.ScanPenActivity"
     }
 }

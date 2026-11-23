@@ -22,13 +22,24 @@ git clone https://github.com/Satellite18111/aerial-pen.git
   - 横屏：左侧时钟列 + 右侧横向卡片；
   - 竖屏：顶部时钟 + 双列卡片。
 - 长按应用弹出菜单：应用信息 / 从桌面隐藏 / 恢复隐藏应用 / 刷新列表。
-- 左下「学习桌面」胶囊按钮，一键回原厂学王桌面。
+- 桌面内置「桌面设置」入口（应用网格第一格，长按左侧时钟也可进入），可把左下胶囊按钮改成跳转任意已安装应用；默认为原厂学王桌面，支持一键恢复默认。
+- 左下胶囊按钮文字会跟随所选应用名，宽度自动伸缩，过长自动省略。
 - 不占用 `CATEGORY_HOME`，不抢系统默认桌面；按 Home 仍进学王。
 - `onResume` 自动刷新应用列表，新装应用无需重启桌面。
 
 | 横屏 | 竖屏 |
 | --- | --- |
 | ![](docs/screenshots/aerial-landscape.png) | ![](docs/screenshots/aerial-portrait.png) |
+
+### 桌面设置
+
+![桌面设置](docs/screenshots/aerial-settings.png)
+
+- 入口：应用网格第一格「桌面设置」，或长按左侧时钟 → 桌面设置。
+- 「当前跳转目标」卡片显示当前应用名称与 `包名/Activity`，可一键恢复默认学王桌面。
+- 下方列出设备上所有桌面类（`CATEGORY_HOME`）与可启动应用（`CATEGORY_LAUNCHER`），按中文名称排序；点一下即保存并设为跳转目标。
+- 设置保存在 `aerial_pen` SharedPreferences 的 `jump_pkg` / `jump_activity` / `jump_label`，升级安装不会丢。
+- 学王桌面即使不在可查询列表中也会被强制补入，保证随时能回默认。
 
 ## 构建
 
