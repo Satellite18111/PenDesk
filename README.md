@@ -1,6 +1,6 @@
 # aerial-pen
 
-基于aerial-tv开发
+受 **Aerial TV** 启发，独立实现。仅参考其视觉语言与交互思路，未拷贝上游源码。
 
 给低分辨率安卓点读笔（测试机：A20Pro，Android 6.0 / API 23，258×960，density 160）做的第三方桌面。仿 tvOS 风格，纯 Android Framework 自绘，无第三方 UI 库。
 
@@ -115,10 +115,21 @@ Aerial TV 面向 Android TV 大屏，提供了「时钟栏 + 横向卡片」的�
 
 MIT License，见 [LICENSE](LICENSE)。第三方组件与灵感来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-## 摘抄自上游项目的许可信息：
-MIT。Inter 字体使用 SIL Open Font License。系统 App 的图标用的是 Material Symbols（Apache 2.0）。图标库里的磁贴图归各自的作者：le5inioo 画的那套来自 #706（原图和名字见他的 aerial-mitv-mftr0，MIT），tvOS 版图标和当贝桌面的图归各 App 和当贝，手机页上每张图都注明了来源。天气用的国内城市表来自 GeoNames（CC BY 4.0），天气数据来自 Open-Meteo。
+## 上游许可与边界
 
-Aerial 是独立的开源项目，与 Apple、小米、TCL 等公司无关。航拍影片版权归 Apple，由 Apple 的服务器直接播放；每日精选图片来自必应。
+Aerial TV 是 **彭楚金（pengchujin）** 以 MIT 许可开源的 Android TV 桌面：
+
+- 项目：https://github.com/pengchujin/aerial-tv
+- 许可证：MIT
+
+本仓库与它的关系是 **设计参考，不是代码分支**：
+
+- 没有拉取、拷贝或修改 Aerial TV 的源码；
+- 没有打包或复用它的图标、字体、航拍影片、天气数据等上游素材；
+- 本项目代码全部为点读笔重新编写，仅参考「时钟栏 + 横向卡片 + 玻璃底板」的视觉语言与长按菜单等交互思路；
+- 项目名中的 `Aerial` 用于说明灵感来源，本项目与上游作者无隶属或合作关系。
+
+如果后续引入任何上游源码或素材，会按上游 MIT 许可保留版权声明并在 `THIRD_PARTY_NOTICES.md` 中列明。
 
 ## 作者声明
 本项目及本页由豆包老师开发和撰写（除了这条），作者仅提供灵感。
