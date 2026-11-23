@@ -1,6 +1,6 @@
 # PenDesk
 
-> 应用显示名为 **PenDesk**；仓库名 `aerial-pen` 与包名 `aerial.pen` 为历史标识，继续保留以兼容旧版本升级和已有链接。
+> 应用显示名与仓库名均为 **PenDesk**；包名 `aerial.pen` 为历史标识，保留以兼容旧版本覆盖升级。旧仓库地址与旧链接会由 GitHub 自动跳转到新仓库。
 
 受 **Aerial TV** 启发，独立实现。仅参考其视觉语言与交互思路，未拷贝上游源码。
 
@@ -10,12 +10,12 @@
 
 ## 下载
 
-- 官网：https://satellite18111.github.io/aerial-pen/
-- Release：https://github.com/Satellite18111/aerial-pen/releases/latest
+- 官网：https://satellite18111.github.io/PenDesk/
+- Release：https://github.com/Satellite18111/PenDesk/releases/latest
 - 源码克隆：
 
 ```bash
-git clone https://github.com/Satellite18111/aerial-pen.git
+git clone https://github.com/Satellite18111/PenDesk.git
 ```
 
 ## 功能
@@ -130,9 +130,10 @@ Aerial TV 是 **彭楚金（pengchujin）** 以 MIT 许可开源的 Android TV �
 - 没有拉取、拷贝或修改 Aerial TV 的源码；
 - 没有打包或复用它的图标、字体、航拍影片、天气数据等上游素材；
 - 本项目代码全部为点读笔重新编写，仅参考「时钟栏 + 横向卡片 + 玻璃底板」的视觉语言与长按菜单等交互思路；
-- 项目名为 **PenDesk**，仓库目录 `aerial-pen` 只是历史标识；Aerial TV 用于说明灵感来源，本项目与上游作者无隶属或合作关系。
+- 项目名为 **PenDesk**；Aerial TV 仅用于说明灵感来源，本项目与上游作者无隶属或合作关系。
 
 如果后续引入任何上游源码或素材，会按上游 MIT 许可保留版权声明并在 `THIRD_PARTY_NOTICES.md` 中列明。
 
 ## 作者声明
 本项目及本页由豆包老师开发和撰写（除了这条），作者仅提供灵感。
+

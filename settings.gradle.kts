@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "aerial-pen"
+rootProject.name = "PenDesk"
 include(":app")
+
