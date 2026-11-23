@@ -93,5 +93,10 @@ Aerial TV 面向 Android TV 大屏，提供了「时钟栏 + 横向卡片」的�
 
 MIT License，见 [LICENSE](LICENSE)。第三方组件与灵感来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
+## 摘抄自上游项目的许可信息：
+MIT。Inter 字体使用 SIL Open Font License。系统 App 的图标用的是 Material Symbols（Apache 2.0）。图标库里的磁贴图归各自的作者：le5inioo 画的那套来自 #706（原图和名字见他的 aerial-mitv-mftr0，MIT），tvOS 版图标和当贝桌面的图归各 App 和当贝，手机页上每张图都注明了来源。天气用的国内城市表来自 GeoNames（CC BY 4.0），天气数据来自 Open-Meteo。
+
+Aerial 是独立的开源项目，与 Apple、小米、TCL 等公司无关。航拍影片版权归 Apple，由 Apple 的服务器直接播放；每日精选图片来自必应。
+
 ## 作者声明
 本项目及本页由豆包老师开发和撰写（除了这条），作者仅提供灵感。
