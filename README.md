@@ -8,6 +8,7 @@
 
 ## 下载
 
+- 官网：https://satellite18111.github.io/aerial-pen/
 - Release：https://github.com/Satellite18111/aerial-pen/releases/latest
 - 源码克隆：
 
