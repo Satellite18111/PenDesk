@@ -91,14 +91,18 @@ adb shell pm install -r /data/local/tmp/PenDesk.apk
 - Android 6.0 无 root 时无法 `force-stop` 系统签名桌面，后台清理对 `com.jxw.launcher` 无效。
 - 学王桌面是固定磁贴，不显示第三方应用列表；要切换桌面请配合 [pen-desktop-switcher](https://github.com/Satellite18111/pen-desktop-switcher)。
 
-## 鸣谢
+## 鸣谢与上游边界
 
-视觉风格上参考了 **Aerial TV**，感谢原作者 **彭楚金（pengchujin）**：
+视觉风格上参考了 **Aerial TV**（作者：彭楚金 pengchujin，MIT 许可）：项目 https://github.com/pengchujin/aerial-tv。
 
-- 项目：https://github.com/pengchujin/aerial-tv
-- 许可证：MIT
+本仓库与它**不是代码关系，更不是 fork**：
 
-需要说明：Aerial TV 面向 Android TV 大屏，本项目面向 258×960、Android 6.0 的点读笔，两者**没有代码继承关系**。我们只借用了「时钟栏 + 横向卡片」这种 tvOS 式的视觉语言；布局适配、横竖屏切换、应用枚举、长按菜单、隐藏应用、「学习桌面」入口等全部独立实现，**没有拷贝或修改上游源码**，也未复用其图标、字体、航拍影片或天气数据。
+- 没有拉取、拷贝或修改 Aerial TV 的任何源码，本项目未 `import` 或引用其任何类；
+- 没有打包或复用它的图标、字体、航拍影片、天气数据等上游素材；
+- 仅参考「时钟栏 + 横向卡片 + 玻璃底板」这一 tvOS 式视觉语言，所有代码为点读笔重新编写；布局适配、横竖屏切换、应用枚举、长按菜单、隐藏应用、「学习桌面」入口均为独立实现；
+- 项目名为 **PenDesk**；Aerial TV 仅用于说明视觉风格出处，本项目与上游作者无隶属、无合作关系，也不代表上游认可本项目。
+
+Aerial TV 面向 Android TV 大屏，本项目面向 258×960、Android 6.0 点读笔。如果后续引入任何上游源码或素材，会按上游 MIT 许可保留版权声明并在 `THIRD_PARTY_NOTICES.md` 中列明。
 
 同时感谢 Kotlin 与 Android 开源社区提供的工具链和文档。
 
@@ -117,22 +121,6 @@ adb shell pm install -r /data/local/tmp/PenDesk.apk
 ## 许可证
 
 MIT License，见 [LICENSE](LICENSE)。第三方组件与视觉风格参考见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
-
-## 上游许可与边界
-
-Aerial TV 是 **彭楚金（pengchujin）** 以 MIT 许可开源的 Android TV 桌面：
-
-- 项目：https://github.com/pengchujin/aerial-tv
-- 许可证：MIT
-
-本仓库与它**不是代码关系，更不是 fork**：
-
-- 没有拉取、拷贝或修改 Aerial TV 的任何源码，本项目未 `import` 或引用其任何类；
-- 没有打包或复用它的图标、字体、航拍影片、天气数据等上游素材；
-- 仅参考「时钟栏 + 横向卡片 + 玻璃底板」这一 tvOS 式视觉语言，所有代码为点读笔重新编写；
-- 项目名为 **PenDesk**；Aerial TV 仅用于说明视觉风格出处，本项目与上游作者无隶属、无合作关系，也不代表上游认可本项目。
-
-如果后续引入任何上游源码或素材，会按上游 MIT 许可保留版权声明并在 `THIRD_PARTY_NOTICES.md` 中列明。
 
 ## 作者声明
 本项目及本页由豆包老师开发和撰写（除了这条），作者仅提供灵感。
