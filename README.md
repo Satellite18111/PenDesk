@@ -79,8 +79,8 @@ keyPassword=******
 ## 安装
 
 ```bash
-adb push app-release.apk /data/local/tmp/aerial.apk
-adb shell pm install -r /data/local/tmp/aerial.apk
+adb push app-release.apk /data/local/tmp/PenDesk.apk
+adb shell pm install -r /data/local/tmp/PenDesk.apk
 ```
 
 部分机器直接 `adb install -r` 会报 `remote Is a directory`，用 `adb push` + `pm install` 更稳。
@@ -116,7 +116,7 @@ adb shell pm install -r /data/local/tmp/aerial.apk
 
 ## 许可证
 
-MIT License，见 [LICENSE](LICENSE)。第三方组件与灵感来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+MIT License，见 [LICENSE](LICENSE)。第三方组件与视觉风格参考见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 上游许可与边界
 
